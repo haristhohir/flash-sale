@@ -1,0 +1,10 @@
+{
+  "name": "@flash-sale/web-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@flash-sale/web"
+    ]
+  }
+}
