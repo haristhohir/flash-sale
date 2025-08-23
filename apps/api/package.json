@@ -9,6 +9,9 @@
         "outputs": [
           "{options.outputPath}"
         ],
+        "dependsOn": [
+          "generate"
+        ],
         "defaultConfiguration": "production",
         "options": {
           "platform": "node",
@@ -110,13 +113,19 @@
       "migrate": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "pnpm prisma migrate deploy"
+          "command": "cd apps/api && pnpm prisma migrate deploy"
         }
       },
       "seed": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "pnpm prisma db seed"
+          "command": "cd apps/api && ts-node --project tsconfig.json prisma/seed.ts"
+        }
+      },
+      "generate": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "cd apps/api && pnpm prisma generate"
         }
       }
     }
@@ -126,6 +135,7 @@
     "@fastify/jwt": "^10.0.0",
     "@fastify/sensible": "~6.0.2",
     "@prisma/client": "^6.14.0",
+    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.1",
     "fastify": "~5.2.1",
     "fastify-plugin": "~5.0.1"
