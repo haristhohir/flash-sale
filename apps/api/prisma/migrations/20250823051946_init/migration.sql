@@ -5,7 +5,7 @@ CREATE TABLE `users` (
     `name` VARCHAR(191) NULL,
     `password` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `deleted_at` DATETIME(3) NULL,
 
     UNIQUE INDEX `users_email_key`(`email`),
@@ -19,7 +19,7 @@ CREATE TABLE `products` (
     `description` VARCHAR(191) NULL,
     `price` INTEGER UNSIGNED NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
@@ -34,7 +34,7 @@ CREATE TABLE `flash_sales` (
     `end_at` DATETIME(3) NOT NULL,
     `quota` INTEGER UNSIGNED NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updated_at` DATETIME(3) NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `deleted_at` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
