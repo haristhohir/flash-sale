@@ -18,7 +18,7 @@ export const poductService = {
       flashSaleStatus = 'ended';
     }
 
-    return {
+    const result = {
       name: flashSale.product.name,
       description: flashSale.product.description,
       image: flashSale.product.image,
@@ -27,5 +27,11 @@ export const poductService = {
       flashSaleEndedAt: flashSale.endAt,
       flashSaleStatus,
     };
+
+
+    if (flashSaleStatus == 'upcoming') {
+    }
+
+    return result;
   }
 }
