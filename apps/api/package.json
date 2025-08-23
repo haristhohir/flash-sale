@@ -131,6 +131,7 @@
     }
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@fastify/autoload": "~6.0.3",
     "@fastify/jwt": "^10.0.0",
     "@fastify/sensible": "~6.0.2",

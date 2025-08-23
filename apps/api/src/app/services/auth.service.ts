@@ -9,6 +9,6 @@ export const authService = {
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new Error('Invalid credentials');
-    return { userId: 1 }
+    return { userId: user.id }
   }
 }

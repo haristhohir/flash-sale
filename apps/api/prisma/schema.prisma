@@ -14,26 +14,29 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement()) @db.UnsignedInt
-  email     String    @unique
-  name      String?
-  password  String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  id          Int           @id @default(autoincrement()) @db.UnsignedInt
+  email       String        @unique
+  name        String?
+  password    String
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  deletedAt   DateTime?     @map("deleted_at")
+  Transaction Transaction[]
 
   @@map("users")
 }
 
 model Product {
-  id          Int         @id @default(autoincrement()) @db.UnsignedInt
+  id          Int           @id @default(autoincrement()) @db.UnsignedInt
   name        String
   description String?
-  price       Int         @db.UnsignedInt
-  createdAt   DateTime    @default(now()) @map("created_at")
-  updatedAt   DateTime    @updatedAt @map("updated_at")
-  deletedAt   DateTime?   @map("deleted_at")
+  image       String?
+  price       Int           @db.UnsignedInt
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  deletedAt   DateTime?     @map("deleted_at")
   FlashSale   FlashSale[]
+  Transaction Transaction[]
 
   @@map("products")
 }
@@ -49,7 +52,26 @@ model FlashSale {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  product Product @relation(fields: [productId], references: [id])
+  product     Product       @relation(fields: [productId], references: [id])
+  Transaction Transaction[]
 
   @@map("flash_sales")
+}
+
+model Transaction {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  userId      Int       @map("user_id") @db.UnsignedInt
+  productId   Int       @map("product_id") @db.UnsignedInt
+  flashSaleId Int?      @map("flash_sale_id") @db.UnsignedInt
+  quantity    Int       @db.UnsignedInt
+  totalPrice  Int       @map("total_price") @db.UnsignedInt
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  user      User       @relation(fields: [userId], references: [id])
+  product   Product    @relation(fields: [productId], references: [id])
+  flashSale FlashSale? @relation(fields: [flashSaleId], references: [id])
+
+  @@map("transactions")
 }
