@@ -30,7 +30,8 @@ export const poductService = {
       flashSaleStartedAt: flashSale.startAt,
       flashSaleEndedAt: flashSale.endAt,
       flashSaleStatus,
-      flashSaleDiscount: flashSale.discount
+      flashSaleDiscount: flashSale.discount,
+      salePrice: flashSale.product.price - flashSale.discount,
     };
   },
   purchaseStatus: async (userId: number, flashSaleId: number) => {
