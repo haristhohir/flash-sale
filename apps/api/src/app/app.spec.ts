@@ -9,12 +9,21 @@ describe('GET /', () => {
     server.register(app);
   });
 
+  afterAll(() => {
+    server.close();
+  });
+
   it('should respond with a message', async () => {
     const response = await server.inject({
       method: 'GET',
       url: '/',
     });
 
-    expect(response.json()).toEqual({ message: 'Hello API' });
+    expect(response.json()).toEqual({
+      data: {
+        message: 'Flash Sale API'
+      },
+      success: true,
+    });
   });
 });
