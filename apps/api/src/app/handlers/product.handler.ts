@@ -1,8 +1,11 @@
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from "fastify";
 import { poductService } from "../services/product.service";
+import { PurchaseRequestDto } from "../dto/transaction.dto";
+import { FLASH_SALE_KEY, FLASH_SALE_STOCK_KEY } from "../constants/redis.constant";
 
 export async function flashSaleHandler(request: FastifyRequest<RouteGenericInterface>, reply: FastifyReply<RouteGenericInterface>) {
-  const cached = await reply.server.redis.get('flashSale');
+  const redis = reply.server.redis;
+  const cached = await redis.get(FLASH_SALE_KEY);
   if (cached) {
     return JSON.parse(cached);
   }
@@ -12,9 +15,24 @@ export async function flashSaleHandler(request: FastifyRequest<RouteGenericInter
   if (!flashSale) return reply.notFound("Flash sale not found");
 
   if (flashSale.flashSaleStatus === 'upcoming') {
-    await reply.server.redis.set('flashSale', JSON.stringify(flashSale), 'EX', Math.floor((new Date(flashSale.flashSaleStartedAt).getTime() - new Date().getTime()) / 1000));
+    await redis.set(FLASH_SALE_KEY, JSON.stringify(flashSale), 'EX', Math.floor((new Date(flashSale.flashSaleStartedAt).getTime() - new Date().getTime()) / 1000));
+    await redis.set(FLASH_SALE_STOCK_KEY, flashSale.quantity);
   }
 
   return flashSale;
 }
 
+export async function purchaseHandler(request: FastifyRequest<RouteGenericInterface>, reply: FastifyReply<RouteGenericInterface>) {
+  const userId = (request.user as any).sub;
+  const { id: productId } = request.body as PurchaseRequestDto;
+
+  try {
+    const order = { userId, productId };
+    console.log("🚀 Received purchase request:", order);
+    reply.server.rabbitmq.channel.sendToQueue('flash_sale_orders', Buffer.from(JSON.stringify(order)), { persistent: true });
+    return { message: 'Order is being processed' };
+  } catch (error: any) {
+    return reply.conflict(error.message);
+  }
+
+}

@@ -8,7 +8,7 @@ export const poductService = {
     }
 
     const now = new Date();
-    let flashSaleStatus = 'ongoing';
+    let flashSaleStatus = 'active';
 
     if (flashSale.startAt > now) {
       flashSaleStatus = 'upcoming';
@@ -19,13 +19,16 @@ export const poductService = {
     }
 
     return {
+      id: flashSale.product.id,
       name: flashSale.product.name,
       description: flashSale.product.description,
       image: flashSale.product.image,
+      quantity: flashSale.quota,
       price: flashSale.product.price,
       flashSaleStartedAt: flashSale.startAt,
       flashSaleEndedAt: flashSale.endAt,
       flashSaleStatus,
     };
-  }
+  },
 }
+

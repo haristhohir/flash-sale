@@ -11,5 +11,16 @@ export const productRepository = {
         product: true
       }
     });
+  },
+  findProductById: async (id: number) => {
+    return prisma.product.findFirst({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      include: {
+        FlashSale: true
+      }
+    });
   }
 }
