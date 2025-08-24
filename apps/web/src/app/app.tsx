@@ -1,48 +1,35 @@
-import NxWelcome from './nx-welcome';
-
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import Navbar from './components/NavBar';
+import Home from './pages/Home';
+import PurchaseStatus from './pages/PurchaseStatus';
+import Login from './pages/Login';
+import FlashSale from './pages/FlashSale';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="@flash-sale/web" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      <Navbar />
       <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route
-          path="/"
+          path="/flash-sale"
           element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
+            <ProtectedRoute>
+              <FlashSale />
+            </ProtectedRoute>
           }
         />
         <Route
-          path="/page-2"
+          path="/status"
           element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
+            <ProtectedRoute>
+              <PurchaseStatus />
+            </ProtectedRoute>
           }
         />
       </Routes>
-      {/* END: routes */}
     </div>
   );
 }
