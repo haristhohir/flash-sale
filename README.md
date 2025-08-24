@@ -86,12 +86,33 @@ or
 brew install locust
 ```
 
+_Get Access Token_
+
+```bash
+curl -sX POST http://localhost:3000/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "haris@thohir.com",
+  "password": "password"
+}'
+```
+
+put the access token to `loadtest/tokens.txt`, it supports multiple token.
+
 9. **Run Load/Stress Test**
 
 ```bash
 cd loadtest
 locust -f locustfile.py --host=http://localhost:3000
 ```
+
+_Setup_
+
+![Setup Load Test](./files/load-test-setup.png)
+
+_Result_
+
+![Load Test Result](./files/load-test-result.png)
 
 ## Demo
 
