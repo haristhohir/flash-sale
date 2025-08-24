@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import Countdown from "./Countdown";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProductCard({ product }: { product: any }) {
+  const { token } = useAuth(); // get token from context
   const targetDate = new Date(product.flashSaleEndedAt);
   const [timeLeft, setTimeLeft] = useState<number>(targetDate.getTime() - new Date().getTime());
 
@@ -13,11 +15,26 @@ export default function ProductCard({ product }: { product: any }) {
     return () => clearInterval(timer);
   }, [targetDate]);
 
-  function buyNow(e: React.MouseEvent) {
+  async function buyNow(e: React.MouseEvent) {
     if (timeLeft > 0) {
       e.preventDefault();
     }
 
+    try {
+      const res = await fetch("http://localhost:3000/product/purchase", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: product.id }),
+      });
+
+      if (!res.ok) throw new Error("Failed to Purchase");
+
+    } catch (err: any) {
+      alert(err.message || "Something went wrong");
+    }
   }
 
   return (
