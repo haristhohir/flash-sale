@@ -43,7 +43,8 @@ export const poductService = {
     const { product, flashSale } = transaction;
 
     return {
-      id: product.id,
+      flashSaleId: flashSale.id,
+      productId: product.id,
       name: product.name,
       description: product.description,
       image: product.image,
