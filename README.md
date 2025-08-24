@@ -113,7 +113,7 @@ locust -f locustfile.py --host=http://localhost:3000
 **Result**
 
 ![Load Test Result](./files/load-test-result.png)
-_\*rate limmiter is off_
+_\*rate limiter is disabled for this test_
 
 10. **Unit Test & Integration Test Result**
 
