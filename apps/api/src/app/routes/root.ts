@@ -12,9 +12,11 @@ export default async function (fastify: FastifyInstance) {
   });
 
   fastify.post('/auth/login', { schema: loginSchema }, loginHandler);
-  fastify.get('/products/flash-sale', { preHandler: authMiddleware }, flashSaleHandler);
-  fastify.post('/products/purchase', {
+  fastify.get('/product/flash-sale', { preHandler: authMiddleware }, flashSaleHandler);
+  fastify.post('/product/purchase', {
     preHandler: [authMiddleware, rateLimiterMiddleware],
     schema: purchaseSchema
   }, purchaseHandler);
+  fastify.get('/product/purchase/:id', async function () { });
+  fastify.get('/test/auth/tokens', async function () { });
 }

@@ -20,9 +20,9 @@ class FlashSaleUser(HttpUser):
             "authorization": f"Bearer {self.token}",
         }
         payload = {"id": 1}  # example product id
-        self.client.post("/products/purchase", headers=headers, json=payload)
+        self.client.post("/product/purchase", headers=headers, json=payload)
 
     @task(1)  # weight 1 = runs less often
     def view_flash_sale(self):
         headers = {"authorization": f"Bearer {self.token}"}
-        self.client.get("/products/flash-sale", headers=headers)
+        self.client.get("/product/flash-sale", headers=headers)

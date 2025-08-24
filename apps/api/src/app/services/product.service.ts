@@ -25,9 +25,11 @@ export const poductService = {
       image: flashSale.product.image,
       quantity: flashSale.quota,
       price: flashSale.product.price,
+      flasSaleId: flashSale.id,
       flashSaleStartedAt: flashSale.startAt,
       flashSaleEndedAt: flashSale.endAt,
       flashSaleStatus,
+      flashSaleDiscount: flashSale.discount
     };
   },
 }

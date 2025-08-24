@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from "fastify";
 import { poductService } from "../services/product.service";
 import { PurchaseRequestDto } from "../dto/transaction.dto";
-import { FLASH_SALE_KEY, FLASH_SALE_STOCK_KEY } from "../constants/redis.constant";
+import { FLASH_SALE_CACHE_KEY, FLASH_SALE_STOCK_KEY } from "../constants/redis.constant";
 import { FLASH_SALE_QUEUE } from "../constants/queue.constant";
 
 export async function flashSaleHandler(request: FastifyRequest<RouteGenericInterface>, reply: FastifyReply<RouteGenericInterface>) {
   const redis = reply.server.redis;
-  const cached = await redis.get(FLASH_SALE_KEY);
+  const cached = await redis.get(FLASH_SALE_CACHE_KEY);
   if (cached) {
     return JSON.parse(cached);
   }
@@ -16,7 +16,7 @@ export async function flashSaleHandler(request: FastifyRequest<RouteGenericInter
   if (!flashSale) return reply.notFound("Flash sale not found");
 
   if (flashSale.flashSaleStatus === 'upcoming') {
-    await redis.set(FLASH_SALE_KEY, JSON.stringify(flashSale), 'EX', Math.floor((new Date(flashSale.flashSaleStartedAt).getTime() - new Date().getTime()) / 1000));
+    await redis.set(FLASH_SALE_CACHE_KEY, JSON.stringify(flashSale), 'EX', Math.floor((new Date(flashSale.flashSaleStartedAt).getTime() - new Date().getTime()) / 1000));
     await redis.set(FLASH_SALE_STOCK_KEY, flashSale.quantity);
   }
 
