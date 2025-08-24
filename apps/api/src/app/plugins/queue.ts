@@ -64,7 +64,6 @@ export default fastifyPlugin(async function (fastify: FastifyInstance) {
       return;
     }
 
-
     const stock = await redis.get(FLASH_SALE_STOCK_KEY);
     const stockNumber = stock ? parseInt(stock) : 0;
 
@@ -72,7 +71,6 @@ export default fastifyPlugin(async function (fastify: FastifyInstance) {
       channel.ack(msg);
       return;
     }
-    console.log("Stock available:", stockNumber);
 
     const transacton = await transactionRepository.findByProductIdAndFlashSaleId(+order.productId, flashSale.flashSaleId);
     if (transacton) {
