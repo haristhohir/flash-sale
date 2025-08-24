@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
 import fastifyPlugin from "fastify-plugin";
 import amqplib, { Channel } from "amqplib";
+import env from "../config/env";
+import { FLASH_SALE_QUEUE } from "../constants/queue.constant";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -11,10 +13,10 @@ declare module "fastify" {
 }
 
 export default fastifyPlugin(async function (fastify: FastifyInstance) {
-  const connection = await amqplib.connect("amqp://admin:secret@localhost:5672");
+  const connection = await amqplib.connect(env.RABBITMQ_URL);
   const channel = await connection.createChannel();
 
-  await channel.assertQueue('flash_sale_orders', { durable: true });
+  await channel.assertQueue(FLASH_SALE_QUEUE, { durable: true });
 
   fastify.decorate("rabbitmq", { channel });
 
@@ -23,7 +25,7 @@ export default fastifyPlugin(async function (fastify: FastifyInstance) {
     await connection.close();
   });
 
-  channel.consume('flash_sale_orders', (msg) => {
+  channel.consume(FLASH_SALE_QUEUE, (msg) => {
     if (!msg) return;
 
     const order = JSON.parse(msg.content.toString());

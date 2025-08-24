@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest, RouteGenericInterface } from "fastify";
 import { poductService } from "../services/product.service";
 import { PurchaseRequestDto } from "../dto/transaction.dto";
 import { FLASH_SALE_KEY, FLASH_SALE_STOCK_KEY } from "../constants/redis.constant";
+import { FLASH_SALE_QUEUE } from "../constants/queue.constant";
 
 export async function flashSaleHandler(request: FastifyRequest<RouteGenericInterface>, reply: FastifyReply<RouteGenericInterface>) {
   const redis = reply.server.redis;
@@ -29,7 +30,7 @@ export async function purchaseHandler(request: FastifyRequest<RouteGenericInterf
   try {
     const order = { userId, productId };
     console.log("🚀 Received purchase request:", order);
-    reply.server.rabbitmq.channel.sendToQueue('flash_sale_orders', Buffer.from(JSON.stringify(order)), { persistent: true });
+    reply.server.rabbitmq.channel.sendToQueue(FLASH_SALE_QUEUE, Buffer.from(JSON.stringify(order)), { persistent: true });
     return { message: 'Order is being processed' };
   } catch (error: any) {
     return reply.conflict(error.message);
