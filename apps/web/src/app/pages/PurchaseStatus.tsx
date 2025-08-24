@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 type Purchase = {
   id: number;
+  name: string;
   productId: number;
   userId: number;
   flashSaleId: number;
@@ -62,6 +63,7 @@ export default function PurchaseStatus() {
       <h1 className="text-2xl font-bold mb-4 text-center">✅ Purchase Successful</h1>
       <div className="space-y-2">
         <p><span className="font-semibold">Product ID:</span> {purchase.flashSaleId}</p>
+        <p><span className="font-semibold">Name:</span> {purchase.name}</p>
         <p><span className="font-semibold">Quantity:</span> {purchase.quantity}</p>
         <p><span className="font-semibold">Total Price:</span> ${purchase.price}</p>
         <p><span className="font-semibold">Purchased At:</span> {new Date(purchase.createdAt).toLocaleString()}</p>
