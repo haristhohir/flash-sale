@@ -8,15 +8,16 @@ A high-throughput flash sale system designed to handle massive spikes in traffic
 
 This system is designed with **high throughput, low latency, and fairness** in mind. Key design choices include:
 
-| Component            | Choice                                          | Trade-offs                                                                                                                   |
-| -------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Monorepo             | **Nx**                                          | Organizes API, web and scripts as separate apps/libs on a single repository. Trade-off: adds learning curve for new user.    |
-| Web Framework        | **Fastify (Node.js)**                           | Extremely fast, lightweight. Trade-off: less built-in structure than NestJS.                                                 |
-| Request Handling     | **Queue-based ordering via RabbitMQ**           | Ensures ordered processing and prevents DB overload. Trade-off: slight delay in processing as requests go through the queue. |
-| Inventory Management | **Redis atomic decrement**                      | Prevents overselling. Trade-off: requires syncing stock to DB asynchronously.                                                |
-| Rate Limiting        | **User ID-based token bucket in Redis**         | Fairness per user. Trade-off: requires distributed store and adds slight overhead.                                           |
-| Caching              | **Redis**                                       | Reduces database load and latency. Trade-off: must handle cache invalidation carefully.                                      |
-| Workers              | **RabbitMQ consumers processing queued orders** | Horizontal scalability and resilience. Trade-off: must handle retries and failed message processing.                         |
+| Component            | Choice                                  | Trade-offs                                                                                                                   |
+| -------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Monorepo             | **Nx**                                  | Organizes API, web and scripts as separate apps/libs on a single repository. Trade-off: adds learning curve for new user.    |
+| Web Framework        | **Fastify (Node.js)**                   | Extremely fast, lightweight. Trade-off: less built-in structure than NestJS.                                                 |
+| Request Handling     | **Queue-based ordering via RabbitMQ**   | Ensures ordered processing and prevents DB overload. Trade-off: slight delay in processing as requests go through the queue. |
+| Inventory Management | **Redis atomic decrement**              | Prevents overselling. Trade-off: requires syncing stock to DB asynchronously.                                                |
+| Rate Limiting        | **User ID-based token bucket in Redis** | Fairness per user. Trade-off: requires distributed store and adds slight overhead.                                           |
+| Caching              | **Redis**                               | Reduces database load and latency. Trade-off: must handle cache invalidation carefully.                                      |
+| Workers              | **RabbitMQ consumers processing queue** | Horizontal scalability and resilience. Trade-off: must handle retries and failed message processing.                         |
+| Package Manager      | **PNPM**                                | Disk space savings by using symlinks. Trade-off: some legacy tooling may expect `node_modules` layout of npm/yarn.           |
 
 ---
 
@@ -60,3 +61,38 @@ pnpm nx run api:generate
 ```bash
 pnpm nx run-many --target=serve --projects=api,web
 ```
+
+6. **Run Unit Tests**
+
+```bash
+pnpm nx run api:test
+```
+
+7. **_Run E2E Tests_**
+
+```bash
+pnpm nx e2e api-e2e
+```
+
+8. **_Prepare for Load/Stress Test_**
+
+```bash
+pip install locust
+```
+
+or
+
+```bash
+brew install locust
+```
+
+9. **Run Load/Stress Test**
+
+```bash
+cd loadtest
+locust -f locustfile.py --host=http://localhost:3000
+```
+
+## Demo
+
+![Demo Video](./files/demo.mp4)
