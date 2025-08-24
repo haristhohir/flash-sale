@@ -29,7 +29,6 @@ export async function purchaseHandler(request: FastifyRequest<RouteGenericInterf
 
   try {
     const order = { userId, productId };
-    console.log("🚀 Received purchase request:", order);
     reply.server.rabbitmq.channel.sendToQueue(FLASH_SALE_QUEUE, Buffer.from(JSON.stringify(order)), { persistent: true });
     return { message: 'Order is being processed' };
   } catch (error: any) {

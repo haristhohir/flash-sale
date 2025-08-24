@@ -34,7 +34,6 @@ export default fastifyPlugin(async function (fastify: FastifyInstance) {
 
     const redis = fastify.redis;
     const order = JSON.parse(msg.content.toString());
-    console.log("📦 Processing order:", order);
 
     const cached = await redis.get(FLASH_SALE_CACHE_KEY);
     let flashSale = null;
