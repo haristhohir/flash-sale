@@ -95,4 +95,4 @@ locust -f locustfile.py --host=http://localhost:3000
 
 ## Demo
 
-![Demo Video](./files/demo.mp4)
+![Demo Video](https://github.com/haristhohir/flash-sale/raw/refs/heads/docs/files/demo.mp4)
