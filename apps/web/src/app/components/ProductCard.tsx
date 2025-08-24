@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export default function ProductCard({ product }: { product: any }) {
-  const { token } = useAuth(); // get token from context
+  const { token } = useAuth();
   const targetDate = new Date(product.flashSaleEndedAt);
   const [timeLeft, setTimeLeft] = useState<number>(targetDate.getTime() - new Date().getTime());
 
@@ -36,7 +36,6 @@ export default function ProductCard({ product }: { product: any }) {
       alert(err.message || "Something went wrong");
     }
   }
-
   return (
     <div className="border rounded-xl shadow hover:shadow-lg p-4 flex flex-col sm:w-full md:w-[50%] lg:w-[400px] relative">
       <div className="absolute top-2 right-4">
@@ -48,7 +47,7 @@ export default function ProductCard({ product }: { product: any }) {
       <p className="text-red-600 font-bold text-xl">${product.salePrice}</p>
       <p className="text-gray-800 mb-4">{product.description}</p>
       <Link
-        to="/status"
+        to={`/status/${product.flashSaleId}`}
         className={`mt-auto bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-center transition ${timeLeft > 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
         onClick={buyNow}
       >

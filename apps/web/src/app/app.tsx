@@ -22,7 +22,7 @@ export function App() {
           }
         />
         <Route
-          path="/status"
+          path="/status/:id"
           element={
             <ProtectedRoute>
               <PurchaseStatus />

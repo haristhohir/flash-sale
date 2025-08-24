@@ -13,9 +13,8 @@ export default function Navbar() {
         <div className="space-x-4">
           <Link to="/" className="hover:text-blue-600">Home</Link>
           <Link to="/flash-sale" className="hover:text-blue-600">Flash Sale</Link>
-          <Link to="/status" className="hover:text-blue-600">My Orders</Link>
+          {/* <Link to="/status" className="hover:text-blue-600">My Orders</Link> */}
 
-          {/* If user exists (logged in), show Logout; else show Login */}
           {user ? (
             <button
               onClick={logout}
