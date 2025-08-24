@@ -86,7 +86,7 @@ or
 brew install locust
 ```
 
-_Get Access Token_
+**Get Access Token**
 
 ```bash
 curl -sX POST http://localhost:3000/auth/login \
@@ -113,6 +113,7 @@ locust -f locustfile.py --host=http://localhost:3000
 **Result**
 
 ![Load Test Result](./files/load-test-result.png)
+_\*rate limmiter is off_
 
 10. **Unit Test & Integration Test Result**
 
