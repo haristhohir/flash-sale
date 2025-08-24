@@ -35,5 +35,20 @@ export async function purchaseHandler(request: FastifyRequest<RouteGenericInterf
   } catch (error: any) {
     return reply.conflict(error.message);
   }
+}
+
+export async function purchaseStatusHandler(request: FastifyRequest<RouteGenericInterface>, reply: FastifyReply<RouteGenericInterface>) {
+  const userId = (request.user as any).sub;
+  const { id: flashSaleId } = request.params as { id: string };
+
+  try {
+    const result = await poductService.purchaseStatus(userId, +flashSaleId);
+
+    return result;
+  } catch (error: any) {
+    console.error(error);
+    return reply.notFound(error.message);
+  }
+
 
 }

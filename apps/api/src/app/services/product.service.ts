@@ -1,4 +1,5 @@
 import { productRepository } from "../repositories/product.repository";
+import { transactionRepository } from "../repositories/transaction.repository";
 
 export const poductService = {
   flashSale: async () => {
@@ -31,6 +32,25 @@ export const poductService = {
       flashSaleStatus,
       flashSaleDiscount: flashSale.discount
     };
+  },
+  purchaseStatus: async (userId: number, flashSaleId: number) => {
+    const transaction = await transactionRepository.findByUserIdAndFlashSaleId(userId, flashSaleId);
+
+    if (!(transaction && transaction.product && transaction.flashSale)) {
+      throw new Error('Your order is not found, try again on next flash sale');
+    }
+
+    const { product, flashSale } = transaction;
+
+    return {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      image: product.image,
+      originalPrice: product.price,
+      price: product.price - flashSale.discount,
+      status: 'success',
+    }
   },
 }
 

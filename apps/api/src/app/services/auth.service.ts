@@ -10,5 +10,8 @@ export const authService = {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new Error('Invalid credentials');
     return { userId: user.id }
+  },
+  getUsers: async (n = 10) => {
+    return userRepository.findWithLimit(n);
   }
 }

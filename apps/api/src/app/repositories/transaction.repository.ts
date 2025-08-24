@@ -24,5 +24,17 @@ export const transactionRepository = {
         quantity,
       }
     });
-  }
+  },
+  findByUserIdAndFlashSaleId: async (userId: number, flashSaleId: number) => {
+    return prisma.transaction.findFirst({
+      where: {
+        userId,
+        flashSaleId,
+      },
+      include: {
+        product: true,
+        flashSale: true,
+      }
+    });
+  },
 }
