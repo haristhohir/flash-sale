@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 
-export const withAuthMiddleware = async (req: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => {
+export async function authMiddleware(req: FastifyRequest, reply: FastifyReply) {
   try {
     await req.jwtVerify();
   } catch (error) {

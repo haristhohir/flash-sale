@@ -15,6 +15,7 @@ server.register(app);
 // Start listening.
 server.listen({ port, host }, (err) => {
   if (err) {
+    console.error(err)
     server.log.error(err);
     process.exit(1);
   } else {
