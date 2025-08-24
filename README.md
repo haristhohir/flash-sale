@@ -68,13 +68,13 @@ pnpm nx run-many --target=serve --projects=api,web
 pnpm nx run api:test
 ```
 
-7. **_Run E2E Tests_**
+7. **Run E2E Tests**
 
 ```bash
 pnpm nx e2e api-e2e
 ```
 
-8. **_Prepare for Load/Stress Test_**
+8. **Prepare for Load/Stress Test**
 
 ```bash
 pip install locust
@@ -106,11 +106,11 @@ cd loadtest
 locust -f locustfile.py --host=http://localhost:3000
 ```
 
-_Setup_
+**Setup**
 
 ![Setup Load Test](./files/load-test-setup.png)
 
-_Result_
+**Result**
 
 ![Load Test Result](./files/load-test-result.png)
 
