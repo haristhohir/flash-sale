@@ -114,6 +114,14 @@ locust -f locustfile.py --host=http://localhost:3000
 
 ![Load Test Result](./files/load-test-result.png)
 
+10. **Unit Test & Integration Test Result**
+
+    **Unit Test**
+    ![Unit Test](./files/unit-test-result.png)
+
+    **Integration Test**
+    ![Integration Test](./files/integration-test-result.png)
+
 ## Demo
 
 ![Demo](./files/demo.gif)
