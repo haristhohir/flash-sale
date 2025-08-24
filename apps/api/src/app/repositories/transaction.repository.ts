@@ -30,6 +30,7 @@ export const transactionRepository = {
       where: {
         userId,
         flashSaleId,
+        deletedAt: null,
       },
       include: {
         product: true,

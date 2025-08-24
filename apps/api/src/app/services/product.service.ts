@@ -26,7 +26,7 @@ export const poductService = {
       image: flashSale.product.image,
       quantity: flashSale.quota,
       price: flashSale.product.price,
-      flasSaleId: flashSale.id,
+      flashSaleId: flashSale.id,
       flashSaleStartedAt: flashSale.startAt,
       flashSaleEndedAt: flashSale.endAt,
       flashSaleStatus,
@@ -51,7 +51,9 @@ export const poductService = {
       image: product.image,
       originalPrice: product.price,
       price: product.price - flashSale.discount,
+      quantity: transaction.quantity,
       status: 'success',
+      createdAt: transaction.createdAt,
     }
   },
 }
