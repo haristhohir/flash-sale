@@ -38,7 +38,7 @@ pnpm install
 2. **Run services**
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 3. **Prepare env**
